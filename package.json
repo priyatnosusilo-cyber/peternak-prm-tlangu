@@ -1,5 +1,5 @@
 {
-  "name": "peternakan-binaan",
+  "name": "peternakan-binaan-prm-tlangu",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^10.12.0",
+    "firebase": "^10.12.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "lucide-react": "^0.383.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.24.0"
+    "recharts": "^2.12.7",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

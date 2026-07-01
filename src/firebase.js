@@ -1,21 +1,16 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-};
+  apiKey: "AIzaSyAxieeb3ytsGT4AL_MmPz4R9nFN3-34MC0",
+  authDomain: "peternak-prm-tlangu.firebaseapp.com",
+  projectId: "peternak-prm-tlangu",
+  storageBucket: "peternak-prm-tlangu.firebasestorage.app",
+  messagingSenderId: "5644512665",
+  appId: "1:5644512665:web:d28a336bd7428f3bf9b708",
+}
 
-// Debug: cek apakah env variable terbaca (lihat di Console browser)
-console.log("Firebase Project ID terbaca:", firebaseConfig.projectId);
-
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export default app;
+const app = initializeApp(firebaseConfig)
+export const auth = getAuth(app)
+export const db = getFirestore(app)

@@ -1,44 +1,59 @@
-# Peternakan Binaan — Login Admin (Rewrite)
+# Peternakan Binaan PRM Tlangu Sukorejo — Administrasi Pakan
 
-## Langkah 1 — Upload ke GitHub
-1. Extract zip ini.
-2. Buat repo baru di GitHub (atau pakai repo lama, hapus isi lama dulu).
-3. Upload semua file & folder ini ke repo lewat GitHub web UI (drag & drop atau "Add file" > "Upload files").
+App admin-only untuk catat pembelian pakan, pembayaran anggota, dan kas kelompok.
+Stack: React + Vite + Tailwind + Firebase (Auth + Firestore) + Vercel.
 
-## Langkah 2 — Setting Firebase
-1. Buka Firebase Console → project Firebase kamu.
-2. **Authentication → Users** → pastikan ada user admin dengan email yang benar.
-3. **Firestore Database** → kalau belum ada, klik **Create database** (mode Production, lokasi terdekat misal `asia-southeast2`).
-4. Masuk tab **Rules**, ganti jadi:
-   ```
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /{document=**} {
-         allow read, write: if request.auth != null;
-       }
-     }
-   }
-   ```
-   Klik **Publish**.
-5. **Project Settings → General** → scroll ke "Your apps" → ambil `firebaseConfig`.
+**Firebase config sudah diisi** di `src/firebase.js`, terhubung ke project `peternak-prm-tlangu`. Tidak perlu diubah lagi.
 
-## Langkah 3 — Masukin key di Vercel
-1. Buka project ini di Vercel → **Settings → Environment Variables**.
-2. Tambahkan 6 variable ini satu-satu (nama harus PERSIS sama):
-   ```
-   VITE_FIREBASE_API_KEY
-   VITE_FIREBASE_AUTH_DOMAIN
-   VITE_FIREBASE_PROJECT_ID
-   VITE_FIREBASE_STORAGE_BUCKET
-   VITE_FIREBASE_MESSAGING_SENDER_ID
-   VITE_FIREBASE_APP_ID
-   ```
-3. Isi masing-masing dengan value dari Langkah 2.
-4. Klik **Save**, lalu **Redeploy** project (Deployments → titik tiga → Redeploy).
+## 1. Pastikan Firebase sudah siap
 
-## Kalau masih gagal login
-1. Buka website yang sudah live → klik kanan → **Inspect** → tab **Console**.
-2. Coba login lagi.
-3. Lihat baris yang muncul: `Firebase Project ID terbaca: ...` — pastikan itu sama dengan project ID Firebase kamu.
-4. Kalau ada error, akan muncul baris `Login error code: ...` — screenshot itu dan kirim ke saya, itu langsung nunjukin sumber masalahnya.
+1. **Authentication → Users** — pastikan user admin sudah ada (email + password).
+2. **Firestore Database** — pastikan database sudah dibuat (mode production, region asia).
+
+## 2. Firestore Security Rules
+
+Di Firestore → tab **Rules**, pakai rule berikut (hanya user yang login yang bisa akses):
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+## 3. Install & jalankan lokal
+
+```bash
+npm install
+npm run dev
+```
+
+Buka `http://localhost:5173`, login pakai email admin yang tadi dibuat di Firebase Auth.
+
+## 4. Tambah 5 anggota awal
+
+Setelah login, buka tab **Anggota** → tambahkan satu-satu:
+Pak Nasikin, Mbah Yono, Pak Agus, Mas Anhar, Mas Agus.
+
+Harga pakan default sudah diset Rp7.500/kg — bisa diubah di tab Dashboard.
+
+## 5. Deploy ke Vercel
+
+```bash
+npm run build
+```
+
+Push project ini ke repo GitHub (overwrite repo lama), lalu Vercel akan auto-redeploy.
+Vercel akan otomatis deteksi Vite — **tidak perlu setting Environment Variables**, karena config Firebase sudah langsung tertulis di `src/firebase.js`.
+
+## Struktur Fitur
+
+- **Dashboard** — total pembelian, pembayaran, saldo kelompok, saldo kas, grafik 6 bulan.
+- **Input** — input mingguan per anggota (satu minggu satu layar), navigasi minggu prev/next, hitung otomatis.
+- **Anggota** — kelola daftar anggota + rekap total kg/pembelian/pembayaran/saldo/status.
+- **Kas** — catat uang masuk/keluar kelompok, saldo berjalan otomatis.
+- **Laporan** — rekap bulanan/tahunan, export Excel & PDF (dengan logo Muhammadiyah).

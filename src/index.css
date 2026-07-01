@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: #F4F6F9;
+  font-family: 'Inter', sans-serif;
+  color: #152233;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+.font-mono-data {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #AECAE6;
+  border-radius: 4px;
+}
+
+@media print {
+  .no-print { display: none !important; }
+}
