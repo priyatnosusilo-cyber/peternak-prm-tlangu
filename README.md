@@ -6,16 +6,22 @@
 3. Upload semua file & folder ini ke repo lewat GitHub web UI (drag & drop atau "Add file" > "Upload files").
 
 ## Langkah 2 — Setting Firebase
-1. Buka Firebase Console → project **peternakanbinaan-prm-tlangu**.
-2. **Authentication → Users** → pastikan ada user admin dengan email yang benar (contoh: `admin@prmtlangu.id`), cek ejaan pelan-pelan biar ga typo lagi kayak kemarin.
-3. **Project Settings (ikon gear) → General** → scroll ke bawah ke "Your apps". Kalau belum ada web app, klik "Add app" → pilih Web (</> icon).
-4. Copy nilai-nilai berikut dari `firebaseConfig` yang muncul:
-   - apiKey
-   - authDomain
-   - projectId
-   - storageBucket
-   - messagingSenderId
-   - appId
+1. Buka Firebase Console → project Firebase kamu.
+2. **Authentication → Users** → pastikan ada user admin dengan email yang benar.
+3. **Firestore Database** → kalau belum ada, klik **Create database** (mode Production, lokasi terdekat misal `asia-southeast2`).
+4. Masuk tab **Rules**, ganti jadi:
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /{document=**} {
+         allow read, write: if request.auth != null;
+       }
+     }
+   }
+   ```
+   Klik **Publish**.
+5. **Project Settings → General** → scroll ke "Your apps" → ambil `firebaseConfig`.
 
 ## Langkah 3 — Masukin key di Vercel
 1. Buka project ini di Vercel → **Settings → Environment Variables**.
